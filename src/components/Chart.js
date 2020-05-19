@@ -70,8 +70,7 @@ seriesRange2.contents.fill = pattern;
 seriesRange2.contents.fillOpacity = 0.5;
 
 // Add scrollbar
-chart.scrollbarX = new am4core.Scrollbar();
-
+// chart.scrollbarX = new am4core.Scrollbar();
 
 // add range
 let range = dateAxis.axisRanges.push(new am4charts.DateAxisDataItem());
@@ -149,6 +148,7 @@ function Chart () {
       </div>
     )
   }
+
   return (
     <>
     <div id='chartdiv'>
