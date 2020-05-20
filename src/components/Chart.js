@@ -4,7 +4,7 @@ import { isMobile } from 'react-device-detect';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import styles from '../res/style/styles.css';
+import styles from '../res/style/styles.css';
 
 /* Chart code */
 // Themes begin
@@ -17,8 +17,7 @@ window.onload = function() {
   let chart = am4core.create("amchartDiv", am4charts.XYChart);
 
   // Add data
-    chart.data = generateChartData();  
-
+  chart.data = generateChartData();  
 
   // Create axes
   let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -31,7 +30,7 @@ window.onload = function() {
   series.dataFields.dateX = "date";
   series.strokeWidth = 1;
   series.minBulletDistance = 10;
-  series.tooltipText = "{valueY}";
+  series.tooltipText = "{ㅁㄹㄴㄴㅇㄹㄴㅇvalueY}";
   series.fillOpacity = 0.1;
   series.tooltip.pointerOrientation = "vertical";
   series.tooltip.background.cornerRadius = 20;
@@ -57,7 +56,7 @@ window.onload = function() {
 
   let seriesRange2 = dateAxis.createSeriesRange(series2);
   seriesRange2.contents.strokeDasharray = "2,3";
-  seriesRange2.contents.stroke = chart.colors.getIndex(8);
+  seriesRange2.contents.stroke = chart.colors.getIndex(1);
   seriesRange2.contents.strokeWidth = 1;
 
   let pattern = new am4core.LinePattern();
@@ -146,14 +145,15 @@ function generateChartData() {
     });
   }
   console.log('@@@@@');
-  console.log(chartData)
+  console.log(chartData.visits)
   return chartData;
 }
 
 function Chart () {
+  console.log('sdfsdfsdf', styles);
   if (isMobile) {
     return (
-      <div id='amchartDiv'>
+      <div id='amchartDiv' className={styles.amchartDiv}>
         모바일
       </div>
     )
@@ -161,7 +161,7 @@ function Chart () {
   
   return (
     <>
-    <div id='amchartDiv'>
+    <div id='amchartDiv' className={styles.amchartDiv}>
       웹
       {/* {chart} */}
     </div>

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -57,19 +58,48 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        }
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env", "@babel/preset-react"]
+        },
+        // use: {
+        //   loader: 'babel-loader',
+        // }
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      }
+        use: [
+          { loader: 'style-loader' },
+          // {
+          //   loader: 'css-loader',
+          //   options: {
+          //     modules: true,
+          //     importLoaders: 1,
+          //     sourceMap: true,
+          //   }
+          // },
+          { loader: MiniCssExtractPlugin.loader },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]',
+              },
+              importLoaders: 1,
+              // camelCase: true,
+              localsConvention: 'camelCase',
+              sourceMap: true,//shouldUseSourceMap,
+            }
+          }
+        ],
+        exclude: /node_modules/
+      },
     ]
   },
   devServer: {
     port: 8080,
     open: true,
+    host: '0.0.0.0',
     contentBase: path.join(__dirname, 'public'),
   },
   plugins: [
@@ -88,6 +118,7 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true,
       },
-    })
+    }),
+    // new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
   ]
 };
