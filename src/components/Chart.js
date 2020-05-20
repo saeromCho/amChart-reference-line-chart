@@ -28,10 +28,10 @@ window.onload = function() {
   let series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.valueY = "visits";
   series.dataFields.valueX='value';
-  series.strokeWidth = 1;
+  // series.strokeWidth = 1;
   series.minBulletDistance = 10;
   series.tooltipText = "{valueY}";
-  series.fillOpacity = 0.1;
+  series.fillOpacity = 0;//0.1;
   series.tooltip.pointerOrientation = "vertical";
   series.tooltip.background.cornerRadius = 20;
   series.tooltip.background.fillOpacity = 0.5;
@@ -43,33 +43,33 @@ window.onload = function() {
   series2.strokeWidth = 1;
   series2.minBulletDistance = 10;
   series2.tooltipText = "{valueY}";
-  series2.fillOpacity = 0.1;
+  series2.fillOpacity = 0;//0.1;
   series2.tooltip.pointerOrientation = "vertical";
   series2.tooltip.background.cornerRadius = 20;
   series2.tooltip.background.fillOpacity = 0.5;
   series2.tooltip.label.padding(12, 12, 12, 12)
 
   let seriesRange = valueAxis.createSeriesRange(series);
-  seriesRange.contents.strokeDasharray = "2,3";
-  seriesRange.contents.stroke = chart.colors.getIndex(8);
-  seriesRange.contents.strokeWidth = 1;
+  // seriesRange.contents.strokeDasharray = "2,3";
+  // seriesRange.contents.stroke = chart.colors.getIndex(8);
+  // seriesRange.contents.strokeWidth = 1;
 
   let seriesRange2 = valueAxis.createSeriesRange(series2);
-  seriesRange2.contents.strokeDasharray = "2,3";
-  seriesRange2.contents.stroke = chart.colors.getIndex(8);
-  seriesRange2.contents.strokeWidth = 1;
+  // seriesRange2.contents.strokeDasharray = "2,3";
+  // seriesRange2.contents.stroke = chart.colors.getIndex(8);
+  // seriesRange2.contents.strokeWidth = 1;
 
-  let pattern = new am4core.LinePattern();
+  let pattern = new am4core.LinePattern();//.LinePattern();
   pattern.rotation = -45;
-  pattern.stroke = seriesRange.contents.stroke;
+  // pattern.stroke = seriesRange.contents.stroke;
   pattern.width = 1000;
   pattern.height = 1000;
-  pattern.gap = 6;
-  seriesRange.contents.fill = pattern;
-  seriesRange.contents.fillOpacity = 0.5;
+  pattern.gap = 10;
+  // seriesRange.contents.fill = pattern;
+  // seriesRange.contents.fillOpacity = 0.5;
 
-  seriesRange2.contents.fill = pattern;
-  seriesRange2.contents.fillOpacity = 0.5;
+  // seriesRange2.contents.fill = pattern;
+  // seriesRange2.contents.fillOpacity = 0.5;
 
   // Add scrollbar
   // chart.scrollbarX = new am4core.Scrollbar();
@@ -123,7 +123,7 @@ window.onload = function() {
 function generateChartData() {
   let chartData = [];
   let firstDate = 0;
-  let visits = 100;
+  let visits = 0;
   for (var i = 0; i < 200; i++) {
     // we create date objects here. In your data, you can have date strings
     // and then set format of your dates using chart.dataDateFormat property,
@@ -131,7 +131,7 @@ function generateChartData() {
     let newDate = firstDate;
     newDate = firstDate + i;
 
-    visits += Math.round((Math.random()) * Math.random() * 10);
+    visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
     chartData.push({
       value: newDate,
       visits: visits
