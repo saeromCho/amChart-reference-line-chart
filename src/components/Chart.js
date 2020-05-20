@@ -22,13 +22,12 @@ window.onload = function() {
   // Create axes, 둘중 하나라도 없으면 에러나네.. 안쓰이더라도 x, y 둘 다 선언해줘야 함.
   let dateAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-  // let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   let valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
 
   // Create series
   let series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.valueY = "visits";
-  series.dataFields.valueX='value';//.dateX = "date";
+  series.dataFields.valueX='value';
   series.strokeWidth = 1;
   series.minBulletDistance = 10;
   series.tooltipText = "{valueY}";
@@ -38,13 +37,9 @@ window.onload = function() {
   series.tooltip.background.fillOpacity = 0.5;
   series.tooltip.label.padding(12, 12, 12, 12)
 
-  console.log('시리지');
-  console.log(series);
-  console.log(series.xAxis.dataProvider.data);
-
   let series2 = chart.series.push(new am4charts.LineSeries());
   series2.dataFields.valueY = "visits";
-  series2.dataFields.valueX='value';//.dateX = "date";
+  series2.dataFields.valueX='value';
   series2.strokeWidth = 1;
   series2.minBulletDistance = 10;
   series2.tooltipText = "{valueY}";
@@ -58,12 +53,10 @@ window.onload = function() {
   seriesRange.contents.strokeDasharray = "2,3";
   seriesRange.contents.stroke = chart.colors.getIndex(8);
   seriesRange.contents.strokeWidth = 1;
-  console.log('랭지 생성');
-  console.log(seriesRange)
 
   let seriesRange2 = valueAxis.createSeriesRange(series2);
   seriesRange2.contents.strokeDasharray = "2,3";
-  seriesRange2.contents.stroke = chart.colors.getIndex(1);
+  seriesRange2.contents.stroke = chart.colors.getIndex(8);
   seriesRange2.contents.strokeWidth = 1;
 
   let pattern = new am4core.LinePattern();
@@ -82,9 +75,7 @@ window.onload = function() {
   // chart.scrollbarX = new am4core.Scrollbar();
 
   // add range
-  let range = valueAxis.axisRanges.push(new am4charts.AxisDataItem());//.DateAxisDataItem());//.ValueAxisDataItem());//DateAxisDataItem());
-  console.log('응???');
-  console.log(range)
+  let range = valueAxis.axisRanges.push(new am4charts.AxisDataItem());
   range.grid.stroke = chart.colors.getIndex(0);
   range.grid.strokeOpacity = 1;
   range.bullet = new am4core.ResizeButton();
@@ -97,7 +88,7 @@ window.onload = function() {
     return chart.plotContainer.maxHeight;
   })
 
-  let range2 = valueAxis.axisRanges.push(new am4charts.AxisDataItem());//DateAxisDataItem());
+  let range2 = valueAxis.axisRanges.push(new am4charts.AxisDataItem());
   range2.grid.stroke = chart.colors.getIndex(0);
   range2.grid.strokeOpacity = 1;
   range2.bullet = new am4core.ResizeButton();
@@ -111,18 +102,7 @@ window.onload = function() {
   })
 
   range.bullet.events.on("dragged", function() {
-
-    console.log('range.bullet');
-    console.log(range.bullet)
-    console.log('?????range.bullet.pixelX????');
-    console.log(range.bullet.pixelX);
-    console.log('valueAxis');
-    console.log(valueAxis)
     range.value = valueAxis.xToValue(range.bullet.pixelX);
-    console.log('????');
-    console.log(valueAxis.xToValue(range.bullet.pixelX))
-    console.log('::::::range.value :::::');
-    console.log(range.value )
     seriesRange.value = range.value;
   })
 
@@ -131,35 +111,18 @@ window.onload = function() {
     seriesRange2.value = range2.value;
   })
 
-  // console.log('?????????????/');
-  // console.log(chart.data[0].date);
-  // console.log(chart.data[chart.data.length - 1].date);
-  let firstTime = chart.data[0].date;//.getTime();
-  let lastTime = chart.data[chart.data.length - 1].date;//.getTime();
-  let date = firstTime + (lastTime - firstTime) / 2;//new Date(firstTime + (lastTime - firstTime) / 2);
-  // console.log('date');
-  // console.log(date)
-  // console.log('range2');
-  // console.log(range2)
-  // console.log('range');
-  // console.log(range)
-  // console.log('seriesRange');
-  // console.log(seriesRange)
-  // range.date = date;
+  let firstTime = chart.data[0].date;
+  let lastTime = chart.data[chart.data.length - 1].date;
+  let date = firstTime + (lastTime - firstTime) / 2;
   range.value = date;
 
-  // seriesRange.date = date;
   seriesRange.value = date;
-  console.log('seriesRange.values.value', seriesRange.values.value)
-  // seriesRange.endDate = chart.data[chart.data.length - 1].date;
   seriesRange.endValue = chart.data[chart.data.length - 1].date;
-  console.log('seriesRange.values.endValue', seriesRange.values.endValue)
 }
 
 function generateChartData() {
   let chartData = [];
-  let firstDate = 0;//1000;//new Date();
-  // firstDate.setDate(firstDate.getDate() - 200);
+  let firstDate = 0;
   let visits = 100;
   for (var i = 0; i < 200; i++) {
     // we create date objects here. In your data, you can have date strings
@@ -169,17 +132,11 @@ function generateChartData() {
     newDate = firstDate + i;
 
     visits += Math.round((Math.random()) * Math.random() * 10);
-    // console.log('newDate');
-    // console.log(newDate)
-    // console.log(':::chartData:::');
-    // console.log(chartData)
     chartData.push({
       value: newDate,
       visits: visits
     });
   }
-  console.log('흠.....');
-  console.log(chartData)
   return chartData;
 }
 
