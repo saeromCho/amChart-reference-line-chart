@@ -122,7 +122,7 @@ window.onload = function() {
     valueAxis.renderer.tooltipLocation = 0;
     // valueAxis.renderer.tooltipLocation2 = 150;
     valueAxis.renderer.tooltipText = secondValue.toFixed(2) + '\t\t\t\t\t\t\t' + firstValue.toFixed(2);
-    valueAxis.renderer.updateTooltip();// = range2.value;
+    // valueAxis.renderer.updateTooltip();// = range2.value;
     // valueAxis.renderer.minLabelPosition = firstValue
     // valueAxis.renderer.maxLabelPosition = secondValue;
   })
@@ -142,7 +142,7 @@ window.onload = function() {
     valueAxis.renderer.tooltipLocation = 0;
     // valueAxis.renderer.tooltipLocation2 = 150;
     valueAxis.renderer.tooltipText = secondValue.toFixed(2) + '\t\t\t\t\t\t\t' + firstValue.toFixed(2);
-    valueAxis.renderer.updateTooltip();// = range2.value;
+    // valueAxis.renderer.updateTooltip();// = range2.value;
 
     // valueAxis.renderer.maxLabelPosition = secondValue;
   })
