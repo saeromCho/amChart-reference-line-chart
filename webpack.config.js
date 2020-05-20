@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/index',
@@ -15,6 +15,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "bundle.js",
+    publicPath: '/',
   },
   performance: {
     hints: false,
@@ -78,16 +79,16 @@ module.exports = {
           //     sourceMap: true,
           //   }
           // },
-          { loader: MiniCssExtractPlugin.loader },
+          // { loader: MiniCssExtractPlugin.loader },
           {
             loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: '[local]',
+                localIdentName:  '[name]__[local]__[hash:base64:5]',
               },
               importLoaders: 1,
-              // camelCase: true,
-              localsConvention: 'camelCase',
+              modules: true,
+              // localIdentName: '[name]__[local]__[hash:base64:5]',
               sourceMap: true,//shouldUseSourceMap,
             }
           }
@@ -99,8 +100,8 @@ module.exports = {
   devServer: {
     port: 8080,
     open: true,
-    host: '0.0.0.0',
     contentBase: path.join(__dirname, 'public'),
+    host: '0.0.0.0',
   },
   plugins: [
     // new CleanWebpackPlugin(),
@@ -119,6 +120,6 @@ module.exports = {
         minifyURLs: true,
       },
     }),
-    // new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
+    // new MiniCssExtractPlugin({ filename: 'res/style/styles.css' }),
   ]
 };
