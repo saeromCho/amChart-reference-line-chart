@@ -9,12 +9,17 @@ import styles from '../res/style/styles.css';
 /* Chart code */
 // Themes begin
 // am4core.ready = function() {
+let chart = null;
+let diffValueText = 0;
+let firstValue = 0;
+let secondValue = 0;
+
 window.onload = function() {
   am4core.useTheme(am4themes_animated);
   // Themes end
 
   // Create chart instance
-  let chart = am4core.create("amchartDiv", am4charts.XYChart);
+  chart = am4core.create("amchartDiv", am4charts.XYChart);
 
   // Add data
   chart.data = generateChartData();  
@@ -50,6 +55,7 @@ window.onload = function() {
   series2.tooltip.label.padding(12, 12, 12, 12)
 
   let seriesRange = valueAxis.createSeriesRange(series);
+  valueAxis.title.text = "Litres sold (M)";
   // seriesRange.contents.strokeDasharray = "2,3";
   // seriesRange.contents.stroke = chart.colors.getIndex(8);
   // seriesRange.contents.strokeWidth = 1;
@@ -102,15 +108,31 @@ window.onload = function() {
   })
 
   range.bullet.events.on("dragged", function() {
+    // console.log('.sdfsd', valueAxis.xToValue(range.bullet.pixelX))
+    // console.log('응?', range);
     range.value = valueAxis.xToValue(range.bullet.pixelX);
+    // console.log('123123', seriesRange);
     seriesRange.value = range.value;
+    secondValue = range.value;
+    diffValueText = firstValue - secondValue;
+    console.log('1111', diffValueText.toFixed(0));
+    // console.log('456456', seriesRange);
+    // console.log('응?@@@', range);
   })
 
   range2.bullet.events.on("dragged", function() {
     range2.value = valueAxis.xToValue(range2.bullet.pixelX);
     seriesRange2.value = range2.value;
+    firstValue = range2.value;
+    diffValueText = firstValue - secondValue;
+    console.log('2222', diffValueText.toFixed(0));
   })
-
+  
+// console.log(seriesRange.value, 'seriesRange.value')
+  diffValueText = seriesRange.value - seriesRange2.value;
+  // console.log('seriesRange.value', seriesRange.value)
+  // console.log('diffValueText');
+  // console.log(diffValueText)
   let firstTime = chart.data[0].date;
   let lastTime = chart.data[chart.data.length - 1].date;
   let date = firstTime + (lastTime - firstTime) / 2;
@@ -118,6 +140,7 @@ window.onload = function() {
 
   seriesRange.value = date;
   seriesRange.endValue = chart.data[chart.data.length - 1].date;
+  
 }
 
 function generateChartData() {
@@ -140,7 +163,8 @@ function generateChartData() {
   return chartData;
 }
 
-function Chart () {
+const Chart = () => {
+  const [diffValue, setDiffValue] = useState("");
   if (isMobile) {
     return (
       <div id='amchartDiv' className={styles.amchartDiv}>
@@ -151,9 +175,11 @@ function Chart () {
   
   return (
     <>
+    {console.log('sdfsdfsdfsdfsdfsdfsdf')}
+    {console.log(chart)}
     <div id='amchartDiv' className={styles.amchartDiv}>
       웹
-      {/* {chart} */}
+      {chart}
     </div>
     </>
   )
