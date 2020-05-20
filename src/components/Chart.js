@@ -28,7 +28,9 @@ window.onload = function() {
   let dateAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
   let valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-
+  valueAxis.adjustLabelPrecision = true;
+  valueAxis.alwaysShowTooltip = true;
+  valueAxis.calculateTotals = true;
   // Create series
   let series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.valueY = "visits";
@@ -108,26 +110,41 @@ window.onload = function() {
   })
 
   range.bullet.events.on("dragged", function() {
-    // console.log('.sdfsd', valueAxis.xToValue(range.bullet.pixelX))
-    // console.log('응?', range);
     range.value = valueAxis.xToValue(range.bullet.pixelX);
-    // console.log('123123', seriesRange);
     seriesRange.value = range.value;
+    seriesRange.text = range.value;
     secondValue = range.value;
     diffValueText = firstValue - secondValue;
-    console.log('1111', diffValueText.toFixed(0));
     valueAxis.title.text = diffValueText.toFixed(0);
-    // console.log('456456', seriesRange);
-    // console.log('응?@@@', range);
+    valueAxis.renderer.showTooltipOn = 'always';
+    // valueAxis.renderer.titleElement = 'sdfsdfsdf';
+    valueAxis.renderer.tooltipPosition = 'fixed';
+    valueAxis.renderer.tooltipLocation = 0;
+    // valueAxis.renderer.tooltipLocation2 = 150;
+    valueAxis.renderer.tooltipText = secondValue.toFixed(2) + '\t\t\t\t\t\t\t' + firstValue.toFixed(2);
+    valueAxis.renderer.updateTooltip();// = range2.value;
+    // valueAxis.renderer.minLabelPosition = firstValue
+    // valueAxis.renderer.maxLabelPosition = secondValue;
   })
 
   range2.bullet.events.on("dragged", function() {
     range2.value = valueAxis.xToValue(range2.bullet.pixelX);
     seriesRange2.value = range2.value;
+    seriesRange2.text = range2.value;
+    
+    // seriesRange2.setVisibility(true);
     firstValue = range2.value;
     diffValueText = firstValue - secondValue;
-    console.log('2222', diffValueText.toFixed(0));
     valueAxis.title.text = diffValueText.toFixed(0);
+    valueAxis.renderer.showTooltipOn = 'always';
+    // valueAxis.renderer.titleElement = 'sdfsdfsdf';
+    valueAxis.renderer.tooltipPosition = 'fixed';
+    valueAxis.renderer.tooltipLocation = 0;
+    // valueAxis.renderer.tooltipLocation2 = 150;
+    valueAxis.renderer.tooltipText = secondValue.toFixed(2) + '\t\t\t\t\t\t\t' + firstValue.toFixed(2);
+    valueAxis.renderer.updateTooltip();// = range2.value;
+
+    // valueAxis.renderer.maxLabelPosition = secondValue;
   })
   
 // console.log(seriesRange.value, 'seriesRange.value')
