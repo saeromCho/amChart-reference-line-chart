@@ -55,7 +55,7 @@ window.onload = function() {
   series2.tooltip.label.padding(12, 12, 12, 12)
 
   let seriesRange = valueAxis.createSeriesRange(series);
-  valueAxis.title.text = "Litres sold (M)";
+  valueAxis.title.text = 0;
   // seriesRange.contents.strokeDasharray = "2,3";
   // seriesRange.contents.stroke = chart.colors.getIndex(8);
   // seriesRange.contents.strokeWidth = 1;
@@ -116,6 +116,7 @@ window.onload = function() {
     secondValue = range.value;
     diffValueText = firstValue - secondValue;
     console.log('1111', diffValueText.toFixed(0));
+    valueAxis.title.text = diffValueText.toFixed(0);
     // console.log('456456', seriesRange);
     // console.log('응?@@@', range);
   })
@@ -126,6 +127,7 @@ window.onload = function() {
     firstValue = range2.value;
     diffValueText = firstValue - secondValue;
     console.log('2222', diffValueText.toFixed(0));
+    valueAxis.title.text = diffValueText.toFixed(0);
   })
   
 // console.log(seriesRange.value, 'seriesRange.value')
