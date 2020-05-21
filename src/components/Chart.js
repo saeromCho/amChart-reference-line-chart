@@ -23,7 +23,7 @@ window.onload = function() {
 
   // Add data
   chart.data = generateChartData();  
-
+  
   // Create axes, 둘중 하나라도 없으면 에러나네.. 안쓰이더라도 x, y 둘 다 선언해줘야 함.
   let dateAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
@@ -31,30 +31,35 @@ window.onload = function() {
   valueAxis.adjustLabelPrecision = true;
   valueAxis.alwaysShowTooltip = true;
   valueAxis.calculateTotals = true;
+  valueAxis.renderer.labels.template.fontSize = 0;
   // Create series
   let series = chart.series.push(new am4charts.LineSeries());
+  // valueAxis.visible = false;
+  dateAxis.visible = false;
+  valueAxis.title.visible = true;
+  
   series.dataFields.valueY = "visits";
   series.dataFields.valueX='value';
   // series.strokeWidth = 1;
   series.minBulletDistance = 10;
-  series.tooltipText = "{valueY}";
+  // series.tooltipText = "{valueY}";
   series.fillOpacity = 0;//0.1;
-  series.tooltip.pointerOrientation = "vertical";
-  series.tooltip.background.cornerRadius = 20;
-  series.tooltip.background.fillOpacity = 0.5;
-  series.tooltip.label.padding(12, 12, 12, 12)
+  // series.tooltip.pointerOrientation = "vertical";
+  // series.tooltip.background.cornerRadius = 20;
+  // series.tooltip.background.fillOpacity = 0.5;
+  // series.tooltip.label.padding(12, 12, 12, 12)
 
   let series2 = chart.series.push(new am4charts.LineSeries());
   series2.dataFields.valueY = "visits";
   series2.dataFields.valueX='value';
-  series2.strokeWidth = 1;
+  // series2.strokeWidth = 1;
   series2.minBulletDistance = 10;
-  series2.tooltipText = "{valueY}";
+  // series2.tooltipText = "{valueY}";
   series2.fillOpacity = 0;//0.1;
-  series2.tooltip.pointerOrientation = "vertical";
-  series2.tooltip.background.cornerRadius = 20;
-  series2.tooltip.background.fillOpacity = 0.5;
-  series2.tooltip.label.padding(12, 12, 12, 12)
+  // series2.tooltip.pointerOrientation = "vertical";
+  // series2.tooltip.background.cornerRadius = 20;
+  // series2.tooltip.background.fillOpacity = 0.5;
+  // series2.tooltip.label.padding(12, 12, 12, 12)
 
   let seriesRange = valueAxis.createSeriesRange(series);
   valueAxis.title.text = 0;
@@ -95,19 +100,42 @@ window.onload = function() {
     target.maxX = chart.plotContainer.maxWidth;
     return chart.plotContainer.maxHeight;
   })
+  range.label.valign = 'left';//.location = 0;
+ 
+  range.label.disabled = false;
+  // range.label.rotation = 90;
 
   let range2 = valueAxis.axisRanges.push(new am4charts.AxisDataItem());
+  // valueAxis.hide = true;
+  valueAxis.adjustLabelPrecision = true;
   range2.grid.stroke = chart.colors.getIndex(0);
   range2.grid.strokeOpacity = 1;
   range2.bullet = new am4core.ResizeButton();
   range2.bullet.background.fill = chart.colors.getIndex(0);
   range2.bullet.background.states.copyFrom(chart.zoomOutButton.background.states);
-  range2.bullet.minX = 0;
+  range2.setLocation(1)
   range2.bullet.adapter.add("minY", function(minY, target) {
     target.maxY = chart.plotContainer.maxHeight;
     target.maxX = chart.plotContainer.maxWidth;
     return chart.plotContainer.maxHeight;
   })
+  range2.label.valign = 'right';
+  
+  range2.label.disabled = false;
+  // range2.label.rotation = 90;
+
+  // chart.events.on("ready", function(ev) {
+    console.log('왜 안되는데ㅡㅡ');
+    console.log(chart.data[0].value);
+    console.log(chart.data[chart.data.length - 1].value);
+
+    range2.setProperty('value', chart.data[chart.data.length - 1].value);
+    range2.setLocation('value', 1)
+    // range2.setValue('value', chart.data[0].value);
+    
+    range.setProperty('value', chart.data[0].value);
+    // range.setValue('value', chart.data[chart.data.length - 1].value);
+  // });
 
   range.bullet.events.on("dragged", function() {
     range.value = valueAxis.xToValue(range.bullet.pixelX);
@@ -117,11 +145,16 @@ window.onload = function() {
     diffValueText = firstValue - secondValue;
     valueAxis.title.text = diffValueText.toFixed(0);
     valueAxis.renderer.showTooltipOn = 'always';
+    valueAxis.showSystemTooltip = true;
+    valueAxis.renderer.showSystemTooltip = true;
     // valueAxis.renderer.titleElement = 'sdfsdfsdf';
     valueAxis.renderer.tooltipPosition = 'fixed';
     valueAxis.renderer.tooltipLocation = 0;
     // valueAxis.renderer.tooltipLocation2 = 150;
     valueAxis.renderer.tooltipText = secondValue.toFixed(2) + '\t\t\t\t\t\t\t' + firstValue.toFixed(2);
+
+    range2.label.text = firstValue.toFixed(2);
+    range.label.text = secondValue.toFixed(2);
     // valueAxis.renderer.updateTooltip();// = range2.value;
     // valueAxis.renderer.minLabelPosition = firstValue
     // valueAxis.renderer.maxLabelPosition = secondValue;
@@ -137,18 +170,31 @@ window.onload = function() {
     diffValueText = firstValue - secondValue;
     valueAxis.title.text = diffValueText.toFixed(0);
     valueAxis.renderer.showTooltipOn = 'always';
+
+    valueAxis.showSystemTooltip = true;
+    valueAxis.renderer.showSystemTooltip = true;
+
+    
     // valueAxis.renderer.titleElement = 'sdfsdfsdf';
     valueAxis.renderer.tooltipPosition = 'fixed';
     valueAxis.renderer.tooltipLocation = 0;
     // valueAxis.renderer.tooltipLocation2 = 150;
     valueAxis.renderer.tooltipText = secondValue.toFixed(2) + '\t\t\t\t\t\t\t' + firstValue.toFixed(2);
+    range2.label.text = firstValue.toFixed(2);
+    range.label.text = secondValue.toFixed(2);
+
     // valueAxis.renderer.updateTooltip();// = range2.value;
 
     // valueAxis.renderer.maxLabelPosition = secondValue;
   })
   
+  dateAxis.positionToValue(-10)
 // console.log(seriesRange.value, 'seriesRange.value')
   diffValueText = seriesRange.value - seriesRange2.value;
+  seriesRange.setLocation = 0;
+  seriesRange2.setLocation = 190;
+  seriesRange.setWorkingLocation = 0;
+  seriesRange2.setWorkingLocation = 190;
   // console.log('seriesRange.value', seriesRange.value)
   // console.log('diffValueText');
   // console.log(diffValueText)
