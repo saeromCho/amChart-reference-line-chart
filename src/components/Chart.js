@@ -31,7 +31,7 @@ window.onload = function() {
   valueAxis.adjustLabelPrecision = true;
   valueAxis.alwaysShowTooltip = true;
   valueAxis.calculateTotals = true;
-  valueAxis.renderer.labels.template.fontSize = 0;
+  valueAxis.renderer.labels.template.fontSize = 10;
 
   // Create series
   let series = chart.series.push(new am4charts.LineSeries());
@@ -80,6 +80,7 @@ window.onload = function() {
 
   let range2 = valueAxis.axisRanges.push(new am4charts.AxisDataItem());
   valueAxis.adjustLabelPrecision = true;
+  range2.value = chart.data[chart.data.length - 1].value;//200;
   range2.grid.stroke = chart.colors.getIndex(0);
   range2.grid.strokeOpacity = 1;
   range2.bullet = new am4core.ResizeButton();
@@ -152,7 +153,7 @@ function generateChartData() {
   let chartData = [];
   let firstDate = 0;
   let visits = 0;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 300; i++) {
     // we create date objects here. In your data, you can have date strings
     // and then set format of your dates using chart.dataDateFormat property,
     // however when possible, use date objects, as this will speed up chart rendering.
